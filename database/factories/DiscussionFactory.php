@@ -19,11 +19,14 @@ class DiscussionFactory extends Factory
      */
     public function definition(): array
     {
+        $topicIds = Topic::pluck('id')->toArray();
+        $userIds = User::pluck('id')->toArray();
+
         return [
             'title' => $title = $this->faker->sentence(),
             'slug' => Str::slug($title),
-            'topic_id' => $this->faker->randomElement(Topic::pluck('id')),
-            'user_id' => $this->faker->randomElement(User::pluck('id')),
+            'topic_id' => $this->faker->randomElement($topicIds),
+            'user_id' => $this->faker->randomElement($userIds),
             'pinned_at' => $this->faker->randomElement([now(), null]),
         ];
     }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Discussion;
+use App\Models\Post;
 use App\Models\Topic;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory(20)->create();
         Discussion::factory(100)->create();
+        Post::factory(100)->create();
     }
 }
