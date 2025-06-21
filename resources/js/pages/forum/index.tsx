@@ -11,9 +11,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Forum() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout
+            breadcrumbs={breadcrumbs}
+            side={
+                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    <div className="p-6 text-gray-900">Side</div>
+                </div>
+            }
+        >
             <Head title="Forum" />
-            <div className="mt-6">forum index</div>
+            <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div className="p-6 text-gray-900">Main content</div>
+            </div>
         </AppLayout>
     );
 }
