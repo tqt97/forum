@@ -1,7 +1,8 @@
 import DiscussionHeader from '@/components/forum/discussion';
+import Pagination from '@/components/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { Discussion, SharedData, Topic, type BreadcrumbItem } from '@/types';
+import { Discussion, Paginated, SharedData, Topic, type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -12,7 +13,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Forum({ discussions }: { discussions: { data: Discussion[] } }) {
+export default function Forum({ discussions }: { discussions: Paginated<Discussion> }) {
     const page = usePage<SharedData>();
     const { topics } = page.props;
     const [topic, setTopic] = useState<string | undefined>(undefined);
@@ -52,6 +53,11 @@ export default function Forum({ discussions }: { discussions: { data: Discussion
                         ))}
                     </div>
                 </div>
+                {discussions.data.length > 10 && (
+                    <div className="my-6 flex justify-center">
+                        <Pagination pagination={discussions} />
+                    </div>
+                )}
             </div>
         </AppLayout>
     );

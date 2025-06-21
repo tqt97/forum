@@ -22,6 +22,23 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface PaginationLink {
+    label: string;
+    url: string | null;
+    active: boolean;
+}
+
+export interface PaginationMeta {
+    current_page: number;
+    last_page: number;
+    links: PaginationLink[];
+}
+
+export interface Paginated<T> {
+    data: T[];
+    meta: PaginationMeta;
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
