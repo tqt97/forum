@@ -24,6 +24,7 @@ class DiscussionFactory extends Factory
             'slug' => Str::slug($title),
             'topic_id' => $this->faker->randomElement(Topic::pluck('id')),
             'user_id' => $this->faker->randomElement(User::pluck('id')),
+            'pinned_at' => $this->faker->randomElement([now(), null]),
         ];
     }
 }

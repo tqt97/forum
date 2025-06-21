@@ -52,6 +52,7 @@ export interface Discussion {
     id: number;
     title: string;
     slug: string;
+    is_pinned: boolean;
     topic: Topic;
     created_at: string;
 }

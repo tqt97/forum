@@ -11,7 +11,24 @@ class Discussion extends Model
     /** @use HasFactory<\Database\Factories\DiscussionFactory> */
     use HasFactory;
 
-    protected $fillable = ['user_id', 'topic_id', 'title', 'slug'];
+    protected $fillable = ['user_id', 'topic_id', 'title', 'slug', 'pinned_at'];
+
+    protected function casts(): array
+    {
+        return [
+            'pinned_at' => 'datetime',
+        ];
+    }
+
+    public function scopeOrderByPinned($query)
+    {
+        $query->orderBy('pinned_at', 'desc');
+    }
+
+    public function isPinned(): bool
+    {
+        return ! is_null($this->pinned_at);
+    }
 
     public function topic(): BelongsTo
     {

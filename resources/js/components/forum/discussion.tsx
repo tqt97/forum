@@ -13,7 +13,9 @@ export default function DiscussionHeader({ discussion }: DiscussionHeaderProps) 
                         <span className="inline-flex items-center rounded-lg bg-gray-100 px-3 py-0.5 text-sm text-gray-600">
                             {discussion.topic.title}
                         </span>
-                        <h1 className="text-lg font-medium">{discussion.title}</h1>
+                        <h1 className="text-lg font-medium">
+                            {discussion.is_pinned && <span>[Pinned]</span>} {discussion.title}
+                        </h1>
                     </div>
                 </div>
                 <div>avatars</div>
