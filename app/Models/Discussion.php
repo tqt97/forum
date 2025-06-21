@@ -83,6 +83,17 @@ class Discussion extends Model
             ->latestOfMany();
     }
 
+    public function scopeOrderByLastPost($query)
+    {
+        $query->orderBy(
+            Post::select('created_at')
+                ->whereColumn('posts.discussion_id', 'discussions.id')
+                ->latest()
+                ->take(1),
+            'desc'
+        );
+    }
+
     /**
      * The users who have posted in the discussion.
      *

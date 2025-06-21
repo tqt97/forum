@@ -17,7 +17,7 @@ class ForumController extends Controller
                 Discussion::with(['topic', 'post', 'latestPost.user', 'participants'])
                     ->select('id', 'title', 'slug', 'topic_id', 'created_at', 'pinned_at')
                     ->orderByPinned()
-                    ->latest()
+                    ->orderByLastPost()
                     ->paginate(10)
             ),
         ]);
