@@ -73,6 +73,7 @@ export interface Discussion {
     topic: Topic;
     post: Post;
     latest_post: Post;
+    participants: PublicUser[];
     created_at: string;
 }
 

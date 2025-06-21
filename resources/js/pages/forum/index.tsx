@@ -29,7 +29,7 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
             }
         >
             <Head title="Forum" />
-            <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div className="overflow-hidden bg-white shadow-md sm:rounded-lg">
                 <div className="p-6 text-gray-900">
                     <div className="flex w-full items-center gap-4">
                         <Select value={topic} onValueChange={setTopic}>

@@ -14,7 +14,7 @@ class ForumController extends Controller
     {
         return Inertia::render('forum/index', [
             'discussions' => DiscussionResource::collection(
-                Discussion::with(['topic', 'post', 'latestPost.user'])
+                Discussion::with(['topic', 'post', 'latestPost.user', 'participants'])
                     ->select('id', 'title', 'slug', 'topic_id', 'created_at', 'pinned_at')
                     ->orderByPinned()
                     ->latest()
