@@ -71,6 +71,7 @@ export interface Discussion {
     slug: string;
     is_pinned: boolean;
     topic: Topic;
+    post: Post;
     created_at: string;
 }
 
@@ -83,6 +84,7 @@ export interface PublicUser {
 export interface Post {
     id: number;
     body: string;
+    body_preview: string;
     user: PublicUser;
     created_at: {
         human: string;

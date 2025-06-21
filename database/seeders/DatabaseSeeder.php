@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('12341234'),
         ]);
         User::factory(20)->create();
-        Discussion::factory(100)->create();
-        Post::factory(100)->create();
+        Discussion::factory(20)->create();
+        Post::factory(400)->create();
     }
 }

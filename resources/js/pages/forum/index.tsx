@@ -17,6 +17,7 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
     const page = usePage<SharedData>();
     const { topics } = page.props;
     const [topic, setTopic] = useState<string | undefined>(undefined);
+    console.log(discussions.data.length);
 
     return (
         <AppLayout
@@ -53,7 +54,7 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                         ))}
                     </div>
                 </div>
-                {discussions.data.length > 10 && (
+                {discussions.data.length > 9 && (
                     <div className="my-6 flex justify-center">
                         <Pagination pagination={discussions} />
                     </div>
