@@ -1,6 +1,7 @@
+import DiscussionHeader from '@/components/forum/discussion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { SharedData, Topic, type BreadcrumbItem } from '@/types';
+import { Discussion, SharedData, Topic, type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -11,7 +12,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Forum() {
+export default function Forum({ discussions }: { discussions: { data: Discussion[] } }) {
     const page = usePage<SharedData>();
     const { topics } = page.props;
     const [topic, setTopic] = useState<string | undefined>(undefined);
@@ -28,7 +29,7 @@ export default function Forum() {
             <Head title="Forum" />
             <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div className="p-6 text-gray-900">
-                    <div className="w-64">
+                    <div className="flex w-full items-center gap-4">
                         <Select value={topic} onValueChange={setTopic}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select a topic" />
@@ -44,6 +45,11 @@ export default function Forum() {
                         </Select>
 
                         <p className="mt-4 text-sm text-gray-600">Selected: {topic}</p>
+                    </div>
+                    <div className="mt-6 space-y-6">
+                        {discussions.data.map((discussion) => (
+                            <DiscussionHeader key={discussion.id} discussion={discussion} />
+                        ))}
                     </div>
                 </div>
             </div>

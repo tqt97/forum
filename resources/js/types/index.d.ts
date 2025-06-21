@@ -48,3 +48,10 @@ export interface Topic {
     title: string;
     slug: string;
 }
+export interface Discussion {
+    id: number;
+    title: string;
+    slug: string;
+    topic: Topic;
+    created_at: string;
+}
