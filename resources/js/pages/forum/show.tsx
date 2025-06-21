@@ -3,6 +3,7 @@ import Pagination from '@/components/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { Discussion, Paginated, Post, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import pluralize from 'pluralize';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -30,7 +31,7 @@ export default function Forum({ discussion, posts }: { discussion: { data: Discu
                             {discussion.data.topic.title}
                         </span>
                         <h1 className="text-lg font-medium">
-                            <template v-if="discussion.is_pinned">[Pinned]</template>
+                            {discussion.data.is_pinned && <span>[Pinned]</span>}
                             {discussion.data.title}
                         </h1>
                         <ul>
@@ -39,9 +40,7 @@ export default function Forum({ discussion, posts }: { discussion: { data: Discu
                             </li>
                         </ul>
                     </div>
-                    {/* <div className="text-sm">
-                        {{ pluralize('reply', discussion.replies_count, true) }}
-                    </div> */}
+                    <div className="text-sm">{pluralize('reply', discussion.data.replies_count, true)}</div>
                 </div>
             </div>
             <div className="mt-6 space-y-4">{posts && posts.data.map((post: Post) => <ListPost key={post.id} post={post} />)}</div>

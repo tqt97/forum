@@ -70,6 +70,7 @@ export interface Discussion {
     title: string;
     slug: string;
     is_pinned: boolean;
+    replies_count: number;
     topic: Topic;
     post: Post;
     latest_post: Post;

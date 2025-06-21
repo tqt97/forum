@@ -1,11 +1,13 @@
 import { Discussion } from '@/types';
 import { Link } from '@inertiajs/react';
+import pluralize from 'pluralize';
 
 export default function DiscussionHeader({ discussion }: { discussion: Discussion }) {
     const maxVisible = 3;
     const participants = discussion.participants;
     const visibleParticipants = participants.slice(0, maxVisible);
     const hiddenCount = participants.length - maxVisible;
+    const unknownUser = 'UNKNOWN';
 
     return (
         <li className="my-6 overflow-hidden border bg-white shadow-md hover:shadow-lg sm:rounded-lg">
@@ -22,13 +24,15 @@ export default function DiscussionHeader({ discussion }: { discussion: Discussio
                         </h1>
                     </div>
 
-                    <div className="mt-3 line-clamp-1 text-sm text-gray-500">{discussion.post.body_preview}</div>
-                    <Link href={route('discussions.show', discussion.slug)} className="mt-3 flex items-center text-sm">
-                        Last post by {discussion.latest_post.user?.username || '[user deleted]'} at &nbsp;
-                        <time dateTime={discussion.latest_post.created_at.datetime} title={discussion.latest_post.created_at.datetime}>
-                            {discussion.latest_post.created_at.datetime}
-                        </time>
-                    </Link>
+                    <div className="mt-3 line-clamp-1 text-sm text-gray-500">{discussion.post?.body_preview}</div>
+                    {discussion.latest_post && (
+                        <Link href={route('discussions.show', discussion.slug)} className="mt-3 flex items-center text-sm">
+                            Last post by {discussion.latest_post.user?.username || unknownUser} at &nbsp;
+                            <time dateTime={discussion.latest_post.created_at.datetime} title={discussion.latest_post.created_at.datetime}>
+                                {discussion.latest_post.created_at.datetime}
+                            </time>
+                        </Link>
+                    )}
                 </div>
                 <div className="flex flex-shrink-0 flex-col items-end">
                     <div className="flex-shrink-0">
@@ -53,9 +57,7 @@ export default function DiscussionHeader({ discussion }: { discussion: Discussio
                         </div>
                     </div>
 
-                    {/* <div className="text-sm mt-3">
-                { pluralize('reply', discussion.replies_count, true) }
-            </div> */}
+                    <div className="mt-3 text-sm">{pluralize('reply', discussion.replies_count, true)}</div>
                 </div>
             </div>
         </li>

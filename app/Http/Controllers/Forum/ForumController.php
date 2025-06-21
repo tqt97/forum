@@ -16,6 +16,7 @@ class ForumController extends Controller
             'discussions' => DiscussionResource::collection(
                 Discussion::with(['topic', 'post', 'latestPost.user', 'participants'])
                     ->select('id', 'title', 'slug', 'topic_id', 'created_at', 'pinned_at')
+                    ->withCount('replies')
                     ->orderByPinned()
                     ->orderByLastPost()
                     ->paginate(10)

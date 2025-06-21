@@ -17,7 +17,6 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
     const page = usePage<SharedData>();
     const { topics } = page.props;
     const [topic, setTopic] = useState<string | undefined>(undefined);
-    console.log(discussions.data.length);
 
     return (
         <AppLayout
@@ -50,9 +49,8 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                     </div>
                     <div className="mt-6 space-y-6">
                         <ul>
-                            {discussions.data.map((discussion) => (
-                                <DiscussionHeader key={discussion.id} discussion={discussion} />
-                            ))}
+                            {discussions.data.length > 0 &&
+                                discussions.data.map((discussion) => <DiscussionHeader key={discussion.id} discussion={discussion} />)}
                         </ul>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ class PostFactory extends Factory
         return [
             'user_id' => $this->faker->randomElement($userIds),
             'discussion_id' => $this->faker->randomElement($discussionIds),
-            'parent_id' => $this->faker->optional()->randomElement($postIds),
+            'parent_id' => $this->faker->randomElement([null, $this->faker->randomElement($postIds)]),
             'body' => $this->faker->paragraphs(3, true),
         ];
     }
