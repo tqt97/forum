@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
 type RegisterForm = {
+    username: string;
     name: string;
     email: string;
     password: string;
@@ -18,6 +19,7 @@ type RegisterForm = {
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
+        username: '',
         name: '',
         email: '',
         password: '',
@@ -37,12 +39,28 @@ export default function Register() {
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6">
                     <div className="grid gap-2">
+                        <Label htmlFor="username">Username</Label>
+                        <Input
+                            id="username"
+                            type="text"
+                            required
+                            autoFocus
+                            tabIndex={1}
+                            autoComplete="username"
+                            value={data.username}
+                            onChange={(e) => setData('username', e.target.value)}
+                            disabled={processing}
+                            placeholder="User name"
+                        />
+                        <InputError message={errors.username} className="mt-2" />
+                    </div>
+
+                    <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"
                             type="text"
                             required
-                            autoFocus
                             tabIndex={1}
                             autoComplete="name"
                             value={data.name}
