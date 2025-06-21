@@ -49,9 +49,11 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                         <p className="mt-4 text-sm text-gray-600">Selected: {topic}</p>
                     </div>
                     <div className="mt-6 space-y-6">
-                        {discussions.data.map((discussion) => (
-                            <DiscussionHeader key={discussion.id} discussion={discussion} />
-                        ))}
+                        <ul>
+                            {discussions.data.map((discussion) => (
+                                <DiscussionHeader key={discussion.id} discussion={discussion} />
+                            ))}
+                        </ul>
                     </div>
                 </div>
                 {discussions.data.length > 9 && (

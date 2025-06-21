@@ -72,6 +72,7 @@ export interface Discussion {
     is_pinned: boolean;
     topic: Topic;
     post: Post;
+    latest_post: Post;
     created_at: string;
 }
 
@@ -88,6 +89,7 @@ export interface Post {
     user: PublicUser;
     created_at: {
         human: string;
+        datetime: string;
     };
     // discussion: Discussion;
 }

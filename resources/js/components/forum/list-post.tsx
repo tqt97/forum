@@ -10,7 +10,12 @@ export default function ListPost({ post }: { post: Post }) {
                 <div className="w-full">
                     <div>
                         <div>{post.user.username}</div>
-                        <div className="text-sm text-gray-500">Posted {post.created_at.human}</div>
+                        <div className="text-sm text-gray-500">
+                            Posted &nbsp;
+                            <time dateTime={post.created_at.datetime} title={post.created_at.datetime}>
+                                {post.created_at.human}
+                            </time>
+                        </div>
                     </div>
                     <div className="mt-3">{post.body}</div>
                 </div>

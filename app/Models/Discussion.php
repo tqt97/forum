@@ -42,14 +42,43 @@ class Discussion extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * All posts in the discussion.
+     */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * The original post in the discussion.
+     *
+     * This is the first post in the discussion and is the parent
+     * of all other posts in the discussion.
+     */
     public function post(): HasOne
     {
         return $this->hasOne(Post::class)
             ->whereNull('parent_id');
+    }
+
+    /**
+     * All replies in the discussion.
+     *
+     * A reply is a post that is not the original post in the discussion.
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Post::class)
+            ->whereNotNull('parent_id');
+    }
+
+    /**
+     * The latest post in the discussion.
+     */
+    public function latestPost(): HasOne
+    {
+        return $this->hasOne(Post::class)
+            ->latestOfMany();
     }
 }
