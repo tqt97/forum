@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Forum;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DiscussionResource;
+use App\Http\Resources\PostResource;
 use App\Models\Discussion;
+use App\Models\Post;
+use Inertia\Inertia;
 use Inertia\Response;
 
 class DiscussionController extends Controller
@@ -13,8 +16,14 @@ class DiscussionController extends Controller
     {
         $discussion->load(['topic']);
 
-        return inertia()->render('forum/show', [
+        return Inertia::render('forum/show', [
             'discussion' => DiscussionResource::make($discussion),
+            'posts' => PostResource::collection(
+                Post::whereBelongsTo($discussion)
+                    ->with(['user', 'discussion'])
+                    ->oldest()
+                    ->paginate(10)
+            ),
         ]);
     }
 }

@@ -73,3 +73,19 @@ export interface Discussion {
     topic: Topic;
     created_at: string;
 }
+
+export interface PublicUser {
+    id: number;
+    username: string;
+    avatar_url: string;
+}
+
+export interface Post {
+    id: number;
+    body: string;
+    user: PublicUser;
+    created_at: {
+        human: string;
+    };
+    // discussion: Discussion;
+}

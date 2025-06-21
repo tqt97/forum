@@ -1,6 +1,7 @@
 import DiscussionHeader from '@/components/forum/discussion';
+import ListPost from '@/components/forum/list-post';
 import AppLayout from '@/layouts/app-layout';
-import { Discussion, type BreadcrumbItem } from '@/types';
+import { Discussion, Post, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -10,7 +11,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Forum({ discussion }: { discussion: { data: Discussion } }) {
+export default function Forum({ discussion, posts }: { discussion: { data: Discussion }; posts: { data: Post[] } }) {
+    console.log(posts);
     return (
         <AppLayout
             breadcrumbs={breadcrumbs}
@@ -24,6 +26,7 @@ export default function Forum({ discussion }: { discussion: { data: Discussion }
             <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <DiscussionHeader key={discussion.data.id} discussion={discussion.data} />
             </div>
+            <div className="mt-6 space-y-4">{posts && posts.data.map((post: Post) => <ListPost key={post.id} post={post} />)}</div>
         </AppLayout>
     );
 }
