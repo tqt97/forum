@@ -1,4 +1,5 @@
 import { Discussion } from '@/types';
+import { Link } from '@inertiajs/react';
 
 interface DiscussionHeaderProps {
     discussion: Discussion;
@@ -6,7 +7,7 @@ interface DiscussionHeaderProps {
 
 export default function DiscussionHeader({ discussion }: DiscussionHeaderProps) {
     return (
-        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+        <Link href={route('discussions.show', discussion.slug)} className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
             <div className="flex items-center space-x-6 p-6 text-gray-900">
                 <div className="flex-grow">
                     <div className="flex items-center space-x-3">
@@ -20,6 +21,6 @@ export default function DiscussionHeader({ discussion }: DiscussionHeaderProps) 
                 </div>
                 <div>avatars</div>
             </div>
-        </div>
+        </Link>
     );
 }

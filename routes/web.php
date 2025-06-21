@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Forum\DiscussionController;
 use App\Http\Controllers\Forum\ForumController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,3 +15,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+Route::get('discussions/{discussion:slug}', [DiscussionController::class, 'show'])->name('discussions.show');
