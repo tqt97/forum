@@ -60,8 +60,8 @@ class HandleInertiaRequests extends Middleware
     private function getTopics()
     {
         return TopicResource::collection(
-            Topic::select('id', 'name', 'slug')
-                ->orderBy('name', 'asc')
+            Topic::select('id', 'title', 'slug')
+                ->orderBy('title', 'asc')
                 ->get()
         );
     }

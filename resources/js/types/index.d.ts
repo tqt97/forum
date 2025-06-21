@@ -45,6 +45,6 @@ export interface User {
 
 export interface Topic {
     id: number;
-    name: string;
+    title: string;
     slug: string;
 }

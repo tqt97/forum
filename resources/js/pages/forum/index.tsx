@@ -36,8 +36,8 @@ export default function Forum() {
                             <SelectContent>
                                 {topics &&
                                     topics.data.map((topic: Topic) => (
-                                        <SelectItem key={topic.id} value={topic.name}>
-                                            {topic.name}
+                                        <SelectItem key={topic.id} value={topic.title}>
+                                            {topic.title}
                                         </SelectItem>
                                     ))}
                             </SelectContent>
