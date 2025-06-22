@@ -8,21 +8,18 @@ import pluralize from 'pluralize';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Forum',
-        href: '/forum',
+        href: '/',
+    },
+    {
+        title: 'Details',
+        href: '#',
     },
 ];
 
 export default function Forum({ discussion, posts }: { discussion: { data: Discussion }; posts: Paginated<Post> }) {
     console.log(posts);
     return (
-        <AppLayout
-            breadcrumbs={breadcrumbs}
-            side={
-                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div className="p-6 text-gray-900">Side</div>
-                </div>
-            }
-        >
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Forum" />
             <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div className="flex items-center justify-between p-6 text-gray-900">

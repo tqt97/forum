@@ -83,6 +83,17 @@ class Discussion extends Model
             ->latestOfMany();
     }
 
+    /**
+     * The users who have posted in the discussion.
+     *
+     * @return HasManyThrough<\App\Models\User>
+     */
+    public function participants(): HasManyThrough
+    {
+        return $this->hasManyThrough(User::class, Post::class, 'discussion_id', 'id', 'id', 'user_id')
+            ->distinct();
+    }
+
     public function scopeOrderByLastPost($query)
     {
         $query->orderBy(
@@ -94,14 +105,8 @@ class Discussion extends Model
         );
     }
 
-    /**
-     * The users who have posted in the discussion.
-     *
-     * @return HasManyThrough<\App\Models\User>
-     */
-    public function participants(): HasManyThrough
+    public function scopeNoReplies($query)
     {
-        return $this->hasManyThrough(User::class, Post::class, 'discussion_id', 'id', 'id', 'user_id')
-            ->distinct();
+        $query->when(request()->has('noreplies'), fn ($query) => $query->has('posts', '=', 1));
     }
 }

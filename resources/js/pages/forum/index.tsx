@@ -3,13 +3,13 @@ import Pagination from '@/components/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { Discussion, Paginated, SharedData, Topic, type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Forum',
-        href: '/forum',
+        href: '/',
     },
 ];
 
@@ -18,20 +18,26 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
     const { topics } = page.props;
     const [topic, setTopic] = useState<string | undefined>(undefined);
 
+    const filterTopic = (topic: string) => {
+        setTopic(topic);
+
+        router.visit('/', {
+            method: 'get',
+            data: {
+                'filter[topic]': topic,
+            },
+            preserveScroll: true,
+            preserveState: true,
+        });
+    };
+
     return (
-        <AppLayout
-            breadcrumbs={breadcrumbs}
-            side={
-                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div className="p-6 text-gray-900">Side</div>
-                </div>
-            }
-        >
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Forum" />
             <div className="overflow-hidden bg-white shadow-md sm:rounded-lg">
                 <div className="p-6 text-gray-900">
                     <div className="flex w-full items-center gap-4">
-                        <Select value={topic} onValueChange={setTopic}>
+                        <Select value={topic} onValueChange={filterTopic}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select a topic" />
                             </SelectTrigger>
@@ -45,7 +51,7 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                             </SelectContent>
                         </Select>
 
-                        <p className="mt-4 text-sm text-gray-600">Selected: {topic}</p>
+                        {/* <p className="mt-4 text-sm text-gray-600">Selected: {topic}</p> */}
                     </div>
                     <div className="mt-6 space-y-6">
                         <ul>
