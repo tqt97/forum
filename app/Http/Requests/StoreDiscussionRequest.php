@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Discussion;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDiscussionRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreDiscussionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->can('create', Discussion::class);
     }
 
     /**

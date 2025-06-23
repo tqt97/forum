@@ -10,6 +10,7 @@ use App\Models\Discussion;
 use App\Models\Post;
 use App\Models\Topic;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,6 +34,7 @@ class DiscussionController extends Controller
 
     public function store(StoreDiscussionRequest $request): RedirectResponse
     {
+        // Gate::authorize('create', Discussion::class);
         $data = $request->validated();
         $discussion = Discussion::make([
             'title' => $data['title'],
