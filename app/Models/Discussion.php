@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 
 class Discussion extends Model
 {
@@ -16,11 +17,23 @@ class Discussion extends Model
 
     protected $fillable = ['user_id', 'topic_id', 'title', 'slug', 'pinned_at'];
 
+    protected static function booted()
+    {
+        static::created(function ($discussion) {
+            $discussion->update(['slug' => $discussion->title]);
+        });
+    }
+
     protected function casts(): array
     {
         return [
             'pinned_at' => 'datetime',
         ];
+    }
+
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = $this->id.'-'.Str::slug($value);
     }
 
     public function scopeOrderByPinned($query)

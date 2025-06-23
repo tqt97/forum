@@ -50,8 +50,6 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                                     ))}
                             </SelectContent>
                         </Select>
-
-                        {/* <p className="mt-4 text-sm text-gray-600">Selected: {topic}</p> */}
                     </div>
                     <div className="mt-6 space-y-6">
                         <ul>
@@ -60,7 +58,7 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                         </ul>
                     </div>
                 </div>
-                {discussions.data.length > 9 && (
+                {discussions.data.length > 0 && (
                     <div className="my-6 flex justify-center">
                         <Pagination pagination={discussions} />
                     </div>

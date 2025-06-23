@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Forum;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDiscussionRequest;
 use App\Http\Resources\DiscussionResource;
 use App\Http\Resources\PostResource;
 use App\Models\Discussion;
 use App\Models\Post;
+use App\Models\Topic;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,5 +29,28 @@ class DiscussionController extends Controller
                     ->paginate(10)
             ),
         ]);
+    }
+
+    public function store(StoreDiscussionRequest $request): RedirectResponse
+    {
+        $data = $request->validated();
+        $discussion = Discussion::make([
+            'title' => $data['title'],
+        ]);
+
+        $discussion->user()->associate($request->user());
+        $discussion->topic()->associate(Topic::find($data['topic_id']));
+
+        $discussion->save();
+
+        $post = Post::make([
+            'body' => $data['body'],
+        ]);
+
+        $post->user()->associate($request->user());
+
+        $discussion->posts()->save($post);
+
+        return redirect()->route('discussions.show', $discussion);
     }
 }

@@ -4,7 +4,7 @@ export default function ListPost({ post }: { post: Post }) {
     return (
         <div className="relative flex items-start space-x-3 overflow-hidden border-2 bg-white p-6 text-gray-900 shadow-sm sm:rounded-lg">
             <div className="w-6 flex-shrink-0">
-                <img src={post.user.avatar_url} className="h-6 w-6 rounded-full" />
+                <img src={post.user?.avatar_url} className="h-6 w-6 rounded-full" />
             </div>
             <div className="w-full">
                 <div>
