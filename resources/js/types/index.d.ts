@@ -88,6 +88,7 @@ export interface Post {
     id: number;
     body: string;
     body_preview: string;
+    body_markdown: string;
     user: PublicUser;
     created_at: {
         human: string;

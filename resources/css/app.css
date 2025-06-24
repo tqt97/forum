@@ -157,3 +157,15 @@
         @apply bg-background text-foreground;
     }
 }
+
+.markdown p {
+    @apply mb-2;
+}
+
+code {
+    @apply leading-loose whitespace-pre-wrap;
+}
+
+.shiki {
+    @apply my-4 rounded-lg p-6 text-sm;
+}

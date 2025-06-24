@@ -10,18 +10,20 @@ use App\Models\Discussion;
 use App\Models\Post;
 use App\Models\Topic;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DiscussionController extends Controller
 {
-    public function show(Discussion $discussion): Response
+    public function show(Request $request, Discussion $discussion): Response
     {
         $discussion->load(['topic']);
         $discussion->loadCount('replies');
 
         return Inertia::render('forum/show', [
+            'query' => $request->query(),
             'discussion' => DiscussionResource::make($discussion),
             'posts' => PostResource::collection(
                 Post::whereBelongsTo($discussion)

@@ -16,7 +16,7 @@ export default function ListPost({ post }: { post: Post }) {
                         </time>
                     </div>
                 </div>
-                <div className="mt-3">{post.body}</div>
+                <div className="markdown mt-3" dangerouslySetInnerHTML={{ __html: post.body_markdown }} />
             </div>
         </div>
     );
