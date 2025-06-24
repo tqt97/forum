@@ -17,7 +17,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Forum({ discussion, posts }: { discussion: { data: Discussion }; posts: Paginated<Post> }) {
-    console.log(posts);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Forum" />
