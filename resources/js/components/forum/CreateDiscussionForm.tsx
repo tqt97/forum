@@ -1,8 +1,7 @@
-import { cn } from '@/lib/utils';
 import { SharedData, Topic } from '@/types';
 import { router, useForm, usePage } from '@inertiajs/react';
+import MarkdownEditor from '@uiw/react-markdown-editor';
 import { LoaderCircle, Plus } from 'lucide-react';
-import pluralize from 'pluralize';
 import { FormEventHandler, useState } from 'react';
 import InputError from '../input-error';
 import { Button } from '../ui/button';
@@ -87,7 +86,7 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
     return (
         <>
             {visible && (
-                <form onSubmit={submit} className="fixed bottom-0 mx-auto w-full space-y-3 border-t-4 border-gray-100 bg-white p-6">
+                <form onSubmit={submit} className="fixed bottom-0 z-50 mx-auto w-full space-y-3 border-t-4 border-gray-100 bg-white p-6 shadow-2xl">
                     <div className="mx-auto max-w-7xl">
                         <div className="flex items-end justify-between">
                             <h1 className="text-lg font-bold">New discussion</h1>
@@ -99,10 +98,10 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
                             <div className="flex w-full items-center space-x-3">
                                 <div className="w-full">
                                     <div className="mb-2 space-y-2">
-                                        <div className="flex items-center justify-between">
+                                        {/* <div className="flex items-center justify-between">
                                             <Label htmlFor="title">Title</Label>
                                             <span className="text-sm text-muted-foreground">{data.title.length}/100 characters</span>
-                                        </div>
+                                        </div> */}
                                         <Input
                                             id="title"
                                             type="text"
@@ -122,7 +121,7 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
                                     </div>
                                 </div>
                                 <div className="w-1/4 space-y-2">
-                                    <Label htmlFor="topic">Select a topic</Label>
+                                    {/* <Label htmlFor="topic">Select a topic</Label> */}
                                     <Select
                                         value={data.topic}
                                         onValueChange={(e) => {
@@ -147,31 +146,19 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
                             </div>
 
                             <div className="mt-4">
-                                <div className="flex h-4 items-center justify-between py-1">
-                                    <Label htmlFor="body">Content</Label>
-                                    <span className="text-sm text-muted-foreground">
-                                        {data.body.length > 0 && pluralize('character', data.body.length, true)}{' '}
-                                    </span>
+                                <div className="flex items-center justify-between">
+                                    <Label htmlFor="body" className="flex items-center gap-4">
+                                        Content
+                                    </Label>
                                 </div>
-                                <textarea
-                                    id="body"
+                                <MarkdownEditor
                                     value={data.body}
-                                    onChange={(e) => {
-                                        setData('body', e.target.value);
-                                        setClientErrors((prev) => ({ ...prev, body: undefined }));
-                                    }}
-                                    onKeyDown={(e) => {
-                                        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                                            submit(e);
-                                        }
-                                    }}
-                                    rows={8}
-                                    className={cn(
-                                        'mt-2 flex w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-                                        'focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
-                                        'aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40',
-                                    )}
-                                ></textarea>
+                                    onChange={(e) => setData('body', e)}
+                                    height="350px"
+                                    className="z-10 mt-2 h-[300px] border border-gray-300"
+                                    onBlur={() => setClientErrors((prev) => ({ ...prev, body: undefined }))}
+                                    toolbarsMode={['preview']}
+                                />
                                 <InputError message={clientErrors.body || errors.body} />
                             </div>
                             <div className="mt-4">
