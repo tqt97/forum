@@ -40,7 +40,7 @@ export default function Forum({ discussion, posts }: { discussion: { data: Discu
                 </div>
             </div>
             <div className="mt-6 space-y-4">{posts && posts.data.map((post: Post) => <ListPost key={post.id} post={post} />)}</div>
-            <div className="mt-6">{posts.data.length > 9 && <Pagination pagination={posts} />}</div>
+            <div className="mt-6">{posts.data && <Pagination pagination={posts} />}</div>
         </AppLayout>
     );
 }

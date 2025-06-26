@@ -75,7 +75,12 @@ export interface Discussion {
     post: Post;
     latest_post: Post;
     participants: PublicUser[];
+    user_can: UserCan;
     created_at: string;
+}
+
+export interface UserCan {
+    reply: boolean;
 }
 
 export interface PublicUser {
@@ -90,6 +95,8 @@ export interface Post {
     body_preview: string;
     body_markdown: string;
     user: PublicUser;
+    discussion: Discussion;
+    user_can: UserCan;
     created_at: {
         human: string;
         datetime: string;

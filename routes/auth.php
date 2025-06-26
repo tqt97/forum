@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Forum\DiscussionController;
+use App\Http\Controllers\Forum\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -56,4 +57,5 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
+    Route::post('/discussions/{discussion:slug}/posts', [PostController::class, 'store'])->name('posts.store');
 });

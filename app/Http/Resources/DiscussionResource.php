@@ -25,6 +25,9 @@ class DiscussionResource extends JsonResource
             'latest_post' => PostResource::make($this->whenLoaded('latestPost')),
             'participants' => PublicUserResource::collection($this->whenLoaded('participants')),
             'created_at' => $this->created_at->toDateTimeString(),
+            'user_can' => [
+                'reply' => auth()->user()->can('reply', $this->resource),
+            ],
         ];
     }
 }

@@ -53,12 +53,12 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                     </div>
                     <div className="mt-6 space-y-6">
                         <ul>
-                            {discussions.data.length > 0 &&
+                            {discussions.data &&
                                 discussions.data.map((discussion) => <DiscussionHeader key={discussion.id} discussion={discussion} />)}
                         </ul>
                     </div>
                 </div>
-                {discussions.data.length > 0 && (
+                {discussions.data && (
                     <div className="my-6 flex justify-center">
                         <Pagination pagination={discussions} />
                     </div>

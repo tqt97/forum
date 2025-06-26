@@ -17,10 +17,20 @@ use Inertia\Response;
 
 class DiscussionController extends Controller
 {
-    public function show(Request $request, Discussion $discussion): Response
+    protected const POSTS_PER_PAGE = 5;
+
+    public function show(Request $request, Discussion $discussion): RedirectResponse|Response
     {
-        $discussion->load(['topic']);
+        $discussion->load(['topic', 'posts.discussion']);
         $discussion->loadCount('replies');
+
+        if ($postId = $request->get('post')) {
+            return redirect()->route('discussions.show', [
+                'discussion' => $discussion,
+                'page' => $this->getPageForPost($discussion, $postId),
+                'postId' => $postId,
+            ]);
+        }
 
         return Inertia::render('forum/show', [
             'query' => $request->query(),
@@ -29,8 +39,9 @@ class DiscussionController extends Controller
                 Post::whereBelongsTo($discussion)
                     ->with(['user', 'discussion'])
                     ->oldest()
-                    ->paginate(10)
+                    ->paginate(self::POSTS_PER_PAGE)
             ),
+            'postId' => (int) $request->postId,
         ]);
     }
 
@@ -56,5 +67,13 @@ class DiscussionController extends Controller
         $discussion->posts()->save($post);
 
         return redirect()->route('discussions.show', $discussion);
+    }
+
+    protected function getPageForPost(Discussion $discussion, $postId)
+    {
+        $index = $discussion->posts->search(fn ($post) => $post->id == $postId);
+        $page = (int) ceil(($index + 1) / self::POSTS_PER_PAGE);
+
+        return $page;
     }
 }

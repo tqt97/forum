@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 const useCreateDiscussionForm = () => {
-    const [visible, setVisible] = useState(false);
+    const [visibleDiscussion, setVisible] = useState(false);
 
     const showCreateDiscussionForm = () => setVisible(true);
     const hideCreateDiscussionForm = () => setVisible(false);
 
     return {
-        visible,
+        visibleDiscussion,
         showCreateDiscussionForm,
         hideCreateDiscussionForm,
     };

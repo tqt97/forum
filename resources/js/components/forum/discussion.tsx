@@ -18,7 +18,7 @@ export default function DiscussionHeader({ discussion }: { discussion: Discussio
                             {discussion.topic.title}
                         </span>
                         <h1 className="text-lg font-medium">
-                            <Link href={route('discussions.show', discussion.slug)}>
+                            <Link href={`/discussions/${discussion.slug}?post=${discussion.latest_post.id}`}>
                                 {discussion.is_pinned && <span>[Pinned]</span>} {discussion.title}
                             </Link>
                         </h1>
@@ -26,7 +26,7 @@ export default function DiscussionHeader({ discussion }: { discussion: Discussio
 
                     <div className="mt-3 line-clamp-1 text-sm text-gray-500">{discussion.post?.body_preview}</div>
                     {discussion.latest_post && (
-                        <Link href={route('discussions.show', discussion.slug)} className="mt-3 flex items-center text-sm">
+                        <Link href={`/discussions/${discussion.slug}?post=${discussion.latest_post.id}`} className="mt-3 flex items-center text-sm">
                             Last post by {discussion.latest_post.user?.username || unknownUser} at &nbsp;
                             <time dateTime={discussion.latest_post.created_at.datetime} title={discussion.latest_post.created_at.datetime}>
                                 {discussion.latest_post.created_at.datetime}

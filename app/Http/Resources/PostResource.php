@@ -22,7 +22,11 @@ class PostResource extends JsonResource
             'body_preview' => Str::limit($this->body, 100),
             'body_markdown' => app(MarkdownRenderer::class)->toHtml($this->body),
             'user' => PublicUserResource::make($this->whenLoaded('user')),
+            'discussion' => DiscussionResource::make($this->whenLoaded('discussion')),
             'created_at' => DateTimeResource::make($this->created_at),
+            'user_can' => [
+                'edit' => auth()->user()->can('update', $this->resource),
+            ],
         ];
     }
 }
