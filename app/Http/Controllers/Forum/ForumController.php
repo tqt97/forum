@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\QueryFilters\MineQueryFilter;
 use App\Http\QueryFilters\NoRepliesQueryFilter;
 use App\Http\QueryFilters\ParticipatingQueryFilter;
+use App\Http\QueryFilters\SolvedQueryFilter;
 use App\Http\QueryFilters\TopicQueryFilter;
+use App\Http\QueryFilters\UnsolvedQueryFilter;
 use App\Http\Resources\DiscussionResource;
 use App\Models\Discussion;
 use Illuminate\Http\Request;
@@ -43,6 +45,9 @@ class ForumController extends Controller
 
             AllowedFilter::custom('mine', new MineQueryFilter),
             AllowedFilter::custom('participating', new ParticipatingQueryFilter),
+
+            AllowedFilter::custom('solved', new SolvedQueryFilter),
+            AllowedFilter::custom('unsolved', new UnsolvedQueryFilter),
         ];
     }
 }

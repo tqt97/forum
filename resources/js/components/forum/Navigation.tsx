@@ -9,6 +9,10 @@ export default function Navigation() {
     const isActive = searchParams.get('filter[noreplies]') === '1';
     const isMine = searchParams.get('filter[mine]') === '1';
     const isParticipating = searchParams.get('filter[participating]') === '1';
+    const solved = searchParams.get('filter[solved]') === '1';
+    const unsolved = searchParams.get('filter[unsolved]') === '1';
+    const activeLink = 'font-bold text-indigo-600';
+
     return (
         <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900">
@@ -18,7 +22,7 @@ export default function Navigation() {
                             <Link href="/">All discussions</Link>
                         </li>
                         <li>
-                            <Link href="/?filter[noreplies]=1" className={isActive ? 'font-bold' : ''}>
+                            <Link href="/?filter[noreplies]=1" className={isActive ? activeLink : ''}>
                                 No replies
                             </Link>
                         </li>
@@ -26,13 +30,23 @@ export default function Navigation() {
                     {auth.user && (
                         <ul className="space-y-2 border-t border-t-gray-100 pt-3">
                             <li>
-                                <Link href="/?filter[mine]=1" className={isMine ? 'font-bold' : ''}>
+                                <Link href="/?filter[mine]=1" className={isMine ? activeLink : ''}>
                                     My discussions
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/?filter[participating]=1" className={isParticipating ? 'font-bold' : ''}>
+                                <Link href="/?filter[participating]=1" className={isParticipating ? activeLink : ''}>
                                     Participating
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/?filter[solved]=1" className={solved ? activeLink : ''}>
+                                    Solved
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/?filter[unsolved]=1" className={unsolved ? activeLink : ''}>
+                                    Unsolved
                                 </Link>
                             </li>
                         </ul>
