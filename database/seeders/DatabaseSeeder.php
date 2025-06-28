@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory(20)->create();
         Discussion::factory(20)->create();
-        Post::factory(400)->create();
+        Post::factory(10)->create();
     }
 }

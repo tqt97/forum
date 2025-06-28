@@ -18,7 +18,7 @@ export default function DiscussionHeader({ discussion }: { discussion: Discussio
                             {discussion.topic.title}
                         </span>
                         <h1 className="text-lg font-medium">
-                            <Link href={`/discussions/${discussion.slug}?post=${discussion.latest_post.id}`}>
+                            <Link href={`/discussions/${discussion.slug}?post=${discussion?.latest_post?.id}`}>
                                 {discussion.is_pinned && <span>[Pinned]</span>} {discussion.title}
                             </Link>
                         </h1>

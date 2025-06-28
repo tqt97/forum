@@ -15,7 +15,7 @@ class Discussion extends Model
     /** @use HasFactory<\Database\Factories\DiscussionFactory> */
     use HasFactory;
 
-    protected $fillable = ['user_id', 'topic_id', 'title', 'slug', 'pinned_at'];
+    protected $fillable = ['user_id', 'topic_id', 'title', 'slug', 'pinned_at', 'solution_post_id'];
 
     protected static function booted()
     {
@@ -62,6 +62,11 @@ class Discussion extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function solution(): BelongsTo
+    {
+        return $this->belongsTo(Post::class, 'solution_post_id');
     }
 
     /**

@@ -6,12 +6,18 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import PostForm from './PostForm';
 
-export default function ListPost({ post }: { post: Post }) {
+interface ListPostProps {
+    post: Post;
+    isBestSolutionId: null | number;
+}
+export default function ListPost({ post, isBestSolutionId }: ListPostProps) {
     useScrollToPost(post.id);
 
     const [isEditing, setIsEditing] = useState(false);
-    const [isReplying, setIsReplying] = useState(false); // Thêm state cho Reply
+    const [isReplying, setIsReplying] = useState(false);
     const [processing, setProcessing] = useState(false);
+    const isBestSolution = isBestSolutionId === post.id;
+    const borderStyle = isBestSolution ? 'border-gray-800' : '';
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -59,11 +65,24 @@ export default function ListPost({ post }: { post: Post }) {
         }
     };
 
+    const handleMarkBestSolution = () => {
+        router.patch(
+            route('discussions.solution', post.discussion.slug),
+            {
+                postId: isBestSolution ? null : post.id,
+            },
+            {
+                preserveScroll: true,
+            },
+        );
+    };
+
     return (
         <div
             key={post.id}
             id={`post-${post.id}`}
-            className="relative flex items-start space-x-3 overflow-hidden border-2 bg-white p-6 text-gray-900 shadow-sm sm:rounded-lg"
+            // className="relative flex items-start space-x-3 overflow-hidden border-2 bg-white p-6 text-gray-900 shadow-sm sm:rounded-lg {boderStyle}
+            className={`relative flex items-start space-x-3 overflow-hidden border-2 bg-white p-6 text-gray-900 shadow-sm sm:rounded-lg ${borderStyle}`}
         >
             <div className="w-6 flex-shrink-0">
                 <img src={post.user?.avatar_url} className="h-6 w-6 rounded-full" />
@@ -119,8 +138,16 @@ export default function ListPost({ post }: { post: Post }) {
                             Delete
                         </Button>
                     </li>
+                    <Button variant={'link'} onClick={handleMarkBestSolution} className="cursor-pointer text-sm text-green-500">
+                        Mark best solution
+                    </Button>
                 </ul>
             </div>
+            {isBestSolution && (
+                <div className="absolute top-0 right-0 rounded-bl bg-gray-800 px-3 py-1 text-xs font-semibold tracking-wide text-gray-100 uppercase shadow-sm">
+                    Best answer
+                </div>
+            )}
         </div>
     );
 }

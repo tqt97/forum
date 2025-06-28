@@ -22,11 +22,12 @@ class DiscussionResource extends JsonResource
             'replies_count' => $this->replies_count,
             'topic' => TopicResource::make($this->whenLoaded('topic')),
             'post' => PostResource::make($this->whenLoaded('post')),
+            'solution' => PostResource::make($this->whenLoaded('solution')),
             'latest_post' => PostResource::make($this->whenLoaded('latestPost')),
             'participants' => PublicUserResource::collection($this->whenLoaded('participants')),
             'created_at' => $this->created_at->toDateTimeString(),
             'user_can' => [
-                'reply' => true,
+                'reply' => false,
             ],
         ];
     }

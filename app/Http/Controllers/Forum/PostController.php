@@ -14,7 +14,6 @@ class PostController extends Controller
 {
     public function store(PostStoreRequest $request, Discussion $discussion): RedirectResponse
     {
-        // dd($discussion);
         $post = Post::make($request->validated());
 
         $post->user()->associate($request->user());

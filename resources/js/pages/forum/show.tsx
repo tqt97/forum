@@ -46,7 +46,9 @@ export default function Forum({ discussion, posts }: { discussion: { data: Discu
                     <div className="text-sm">{pluralize('reply', discussion.data.replies_count, true)}</div>
                 </div>
             </div>
-            <div className="mt-6 space-y-4">{posts && posts.data.map((post: Post) => <ListPost key={post.id} post={post} />)}</div>
+            <div className="mt-6 space-y-4">
+                {posts && posts.data.map((post: Post) => <ListPost key={post.id} post={post} isBestSolutionId={discussion.data.solution.id} />)}
+            </div>
             <div className="mt-6">{posts.data && <Pagination pagination={posts} />}</div>
         </AppLayout>
     );

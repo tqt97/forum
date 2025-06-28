@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Forum;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteDiscussionRequest;
+use App\Http\Requests\DiscussionSolutionPatchRequest;
 use App\Http\Requests\StoreDiscussionRequest;
 use App\Http\Resources\DiscussionResource;
 use App\Http\Resources\PostResource;
@@ -22,7 +23,7 @@ class DiscussionController extends Controller
 
     public function show(Request $request, Discussion $discussion): RedirectResponse|Response
     {
-        $discussion->load(['topic', 'posts.discussion']);
+        $discussion->load(['topic', 'posts.discussion', 'solution']);
         $discussion->loadCount('replies');
 
         if ($postId = $request->get('post')) {
@@ -32,6 +33,7 @@ class DiscussionController extends Controller
                 'postId' => $postId,
             ]);
         }
+        // dd($discussion);
 
         return Inertia::render('forum/show', [
             'query' => $request->query(),
@@ -75,6 +77,15 @@ class DiscussionController extends Controller
         $discussion->delete();
 
         return redirect()->route('home');
+    }
+
+    public function markSolution(DiscussionSolutionPatchRequest $request, Discussion $discussion): RedirectResponse
+    {
+        // Make sure post_id is within this topic.
+        $discussion->solution()->associate(Post::find($request->postId));
+        $discussion->save();
+
+        return back();
     }
 
     protected function getPageForPost(Discussion $discussion, $postId)
