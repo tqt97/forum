@@ -9,13 +9,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class Discussion extends Model
 {
     /** @use HasFactory<\Database\Factories\DiscussionFactory> */
     use HasFactory;
 
+    use Searchable;
+
     protected $fillable = ['user_id', 'topic_id', 'title', 'slug', 'pinned_at', 'solution_post_id'];
+
+    public function toSearchableArray()
+    {
+        return $this->only('id', 'title');
+    }
 
     protected static function booted()
     {

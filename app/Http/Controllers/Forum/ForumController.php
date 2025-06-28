@@ -21,7 +21,7 @@ class ForumController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-
+        // dd($request->all());
         return Inertia::render('forum/index', [
             'query' => (object) $request->query(),
             'discussions' => DiscussionResource::collection(
@@ -31,6 +31,11 @@ class ForumController extends Controller
                     ->withCount('replies')
                     ->orderByPinned()
                     ->orderByLastPost()
+                    ->tap(function ($builder) use ($request) {
+                        if (filled($request->search)) {
+                            return $builder->whereIn('id', Discussion::search($request->search)->get()->pluck('id'));
+                        }
+                    })
                     ->paginate(10)
                     ->appends($request->query())
             ),
