@@ -169,3 +169,25 @@ code {
 .shiki {
     @apply my-4 rounded-lg p-6 text-sm;
 }
+
+/* Đảm bảo padding cho MentionsInput */
+.mentions-mentions-input__input {
+    padding: 10px; /* Đặt padding chung cho toàn bộ input */
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.mentions-input__input {
+    padding: 12px;
+}
+
+/* Padding riêng cho các suggestion trong Mention */
+.mention-suggestion {
+    padding: 10px; /* Đặt padding cho từng gợi ý */
+    cursor: pointer;
+}
+
+.mention-suggestion:hover {
+    background-color: #f1f1f1;
+}

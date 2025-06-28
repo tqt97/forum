@@ -1,8 +1,9 @@
-import { SharedData, Topic } from '@/types';
+import { SharedData, Topic, UserMention } from '@/types';
 import { router, useForm, usePage } from '@inertiajs/react';
-import MarkdownEditor from '@uiw/react-markdown-editor';
 import { LoaderCircle, Plus } from 'lucide-react';
+import { MeiliSearch } from 'meilisearch';
 import { FormEventHandler, useState } from 'react';
+import { Mention, MentionsInput } from 'react-mentions';
 import InputError from '../input-error';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -21,15 +22,50 @@ type CreateDiscussionForm = {
 };
 
 export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFormProps) {
+    const client = new MeiliSearch({
+        host: 'http://127.0.0.1:7700',
+        apiKey: 'masterKey',
+    });
+
+    const usersIndex = client.index('users_mentions');
     const page = usePage<SharedData>();
     const { topics } = page.props;
+    const [users, setUsers] = useState<UserMention[]>([]);
+    const [, setSearchTerm] = useState('');
     const [clientErrors, setClientErrors] = useState<Partial<CreateDiscussionForm>>({});
-
     const { data, setData, processing, errors, reset } = useForm<Required<CreateDiscussionForm>>({
         title: '',
         topic: '',
         body: '',
     });
+
+    const fetchUsers = async (query: string) => {
+        try {
+            if (query.length) {
+                const { hits } = await usersIndex.search(query);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const mappedUsers = hits.map((hit: any) => ({
+                    id: hit.id,
+                    display: hit.display,
+                    label: hit.label,
+                }));
+                setUsers(mappedUsers);
+            } else {
+                setUsers([]);
+            }
+        } catch (error) {
+            console.error('Error fetching users from MeiliSearch:', error);
+        }
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleBodyChange = (e: any) => {
+        const value = e.target.value;
+        setData('body', value);
+        const usernameQuery = value.split('@')[1]; // after @
+        setSearchTerm(usernameQuery || '');
+        fetchUsers(usernameQuery || '');
+    };
 
     const validateForm = (): boolean => {
         const errors: Partial<CreateDiscussionForm> = {};
@@ -72,6 +108,7 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
             body: data.body,
             topic_id: Number(data.topic),
         };
+
         router.post(route('discussions.store'), payload, {
             onSuccess: () => {
                 onClose();
@@ -98,10 +135,6 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
                             <div className="flex w-full items-center space-x-3">
                                 <div className="w-full">
                                     <div className="mb-2 space-y-2">
-                                        {/* <div className="flex items-center justify-between">
-                                            <Label htmlFor="title">Title</Label>
-                                            <span className="text-sm text-muted-foreground">{data.title.length}/100 characters</span>
-                                        </div> */}
                                         <Input
                                             id="title"
                                             type="text"
@@ -121,7 +154,6 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
                                     </div>
                                 </div>
                                 <div className="w-1/4 space-y-2">
-                                    {/* <Label htmlFor="topic">Select a topic</Label> */}
                                     <Select
                                         value={data.topic}
                                         onValueChange={(e) => {
@@ -151,14 +183,28 @@ export default function NewDiscussionForm({ visible, onClose }: NewDiscussionFor
                                         Content
                                     </Label>
                                 </div>
-                                <MarkdownEditor
+
+                                {/* Mentions Input */}
+                                <MentionsInput
                                     value={data.body}
-                                    onChange={(e) => setData('body', e)}
-                                    height="350px"
-                                    className="z-10 mt-2 h-[300px] border border-gray-300"
-                                    onBlur={() => setClientErrors((prev) => ({ ...prev, body: undefined }))}
-                                    toolbarsMode={['preview']}
-                                />
+                                    onChange={handleBodyChange}
+                                    placeholder="Type your message..."
+                                    className="mentions-input mt-4 flex h-32 w-full min-w-0 rounded-md border bg-transparent p-10 px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                                >
+                                    <Mention
+                                        className="m-2 p-4"
+                                        trigger="@"
+                                        data={users ?? []}
+                                        markup="@[__display__](__id__)"
+                                        displayTransform={(id: string, display: string) => `@${display}`}
+                                        renderSuggestion={(suggestion) => (
+                                            <div className="mention-suggestion">
+                                                <span>{suggestion.display}</span>
+                                            </div>
+                                        )}
+                                    />
+                                </MentionsInput>
+
                                 <InputError message={clientErrors.body || errors.body} />
                             </div>
                             <div className="mt-4">

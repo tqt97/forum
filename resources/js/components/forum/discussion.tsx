@@ -10,26 +10,26 @@ export default function DiscussionHeader({ discussion }: { discussion: Discussio
     const unknownUser = 'UNKNOWN';
 
     return (
-        <li className="my-6 overflow-hidden border bg-white shadow-md hover:shadow-lg sm:rounded-lg">
-            <div className="flex items-center space-x-6 p-6 text-gray-900">
+        <li className="relative my-6 overflow-hidden border bg-white shadow-md hover:shadow-lg sm:rounded-lg">
+            <div className="flex items-center space-x-6 p-4 text-gray-900">
                 <div className="flex-grow">
-                    <div className="flex items-center space-x-3">
-                        <span className="inline-flex items-center rounded-lg bg-gray-100 px-3 py-0.5 text-sm text-gray-600">
+                    <div className="flex w-[1/4] items-center gap-2">
+                        <span className="w-auto items-center rounded-lg bg-gray-800 px-3 py-1 text-sm text-white shadow-lg">
                             {discussion.topic.title}
                         </span>
-                        <h1 className="text-lg font-medium">
-                            <Link href={`/discussions/${discussion.slug}?post=${discussion?.latest_post?.id}`}>
-                                {discussion.is_pinned && <span>[Pinned]</span>} {discussion.title}
+                        <h1 className="line-clamp-1 w-3/4 text-lg font-medium">
+                            <Link href={`/discussions/${discussion.slug}?post=${discussion?.latest_post?.id}`} title={discussion.title}>
+                                {discussion.title}
                             </Link>
                         </h1>
                     </div>
 
-                    <div className="mt-3 line-clamp-1 text-sm text-gray-500">{discussion.post?.body_preview}</div>
+                    <div className="mt-3 line-clamp-2 text-sm text-gray-500">{discussion.post?.body_preview}</div>
                     {discussion.latest_post && (
                         <Link href={`/discussions/${discussion.slug}?post=${discussion.latest_post.id}`} className="mt-3 flex items-center text-sm">
-                            Last post by {discussion.latest_post.user?.username || unknownUser} at &nbsp;
+                            Last post by &nbsp;<strong>{discussion.latest_post.user?.username || unknownUser} </strong>&nbsp; at&nbsp;{' '}
                             <time dateTime={discussion.latest_post.created_at.datetime} title={discussion.latest_post.created_at.datetime}>
-                                {discussion.latest_post.created_at.datetime}
+                                {` ${discussion.latest_post.created_at.datetime}`}
                             </time>
                         </Link>
                     )}
@@ -60,6 +60,9 @@ export default function DiscussionHeader({ discussion }: { discussion: Discussio
                     <div className="mt-3 text-sm">{pluralize('reply', discussion.replies_count, true)}</div>
                 </div>
             </div>
+            {discussion.is_pinned && (
+                <div className="absolute top-0 right-0 rounded-bl-lg bg-gray-800 px-3 py-1 text-xs tracking-wide text-gray-100 shadow-sm">Pinned</div>
+            )}
         </li>
     );
 }

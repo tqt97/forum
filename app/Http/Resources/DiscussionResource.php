@@ -27,7 +27,9 @@ class DiscussionResource extends JsonResource
             'participants' => PublicUserResource::collection($this->whenLoaded('participants')),
             'created_at' => $this->created_at->toDateTimeString(),
             'user_can' => [
-                'reply' => false,
+                'reply' => true,
+                'edit' => true,
+                'delete' => true,
             ],
         ];
     }

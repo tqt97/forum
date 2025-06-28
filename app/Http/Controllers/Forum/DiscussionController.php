@@ -13,7 +13,6 @@ use App\Models\Post;
 use App\Models\Topic;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -83,6 +82,8 @@ class DiscussionController extends Controller
     {
         // Make sure post_id is within this topic.
         $discussion->solution()->associate(Post::find($request->postId));
+        // $discussion->solution()->associate($discussion->posts()->find($request->post_id));
+
         $discussion->save();
 
         return back();

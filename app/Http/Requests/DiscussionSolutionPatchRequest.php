@@ -22,7 +22,7 @@ class DiscussionSolutionPatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'postId' => ['integer', 'exists:posts,id'],
+            'postId' => ['nullable', 'exists:posts,id'],
         ];
     }
 }

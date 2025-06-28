@@ -81,7 +81,9 @@ export interface Discussion {
 }
 
 export interface UserCan {
+    edit: boolean;
     reply: boolean;
+    delete: boolean;
 }
 
 export interface PublicUser {
@@ -107,4 +109,10 @@ export interface Post {
 
 export interface PostForm {
     body: string;
+}
+
+export interface UserMention {
+    id: number;
+    display: string;
+    label: string;
 }

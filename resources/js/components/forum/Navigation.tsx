@@ -11,6 +11,8 @@ export default function Navigation() {
     const isParticipating = searchParams.get('filter[participating]') === '1';
     const solved = searchParams.get('filter[solved]') === '1';
     const unsolved = searchParams.get('filter[unsolved]') === '1';
+    const mentioned = searchParams.get('filter[mentioned]') === '1';
+
     const activeLink = 'font-bold text-indigo-600';
 
     return (
@@ -47,6 +49,11 @@ export default function Navigation() {
                             <li>
                                 <Link href="/?filter[unsolved]=1" className={unsolved ? activeLink : ''}>
                                     Unsolved
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/?filter[mentioned]=1" className={mentioned ? activeLink : ''}>
+                                    Mentioned
                                 </Link>
                             </li>
                         </ul>

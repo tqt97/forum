@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Forum;
 
 use App\Http\Controllers\Controller;
+use App\Http\QueryFilters\MentionedQueryFilter;
 use App\Http\QueryFilters\MineQueryFilter;
 use App\Http\QueryFilters\NoRepliesQueryFilter;
 use App\Http\QueryFilters\ParticipatingQueryFilter;
@@ -21,7 +22,6 @@ class ForumController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        // dd($request->all());
         return Inertia::render('forum/index', [
             'query' => (object) $request->query(),
             'discussions' => DiscussionResource::collection(
@@ -42,17 +42,16 @@ class ForumController extends Controller
         ]);
     }
 
-    protected function allowedFilters()
+    protected function allowedFilters(): array
     {
         return [
             AllowedFilter::custom('noreplies', new NoRepliesQueryFilter),
             AllowedFilter::custom('topic', new TopicQueryFilter),
-
             AllowedFilter::custom('mine', new MineQueryFilter),
             AllowedFilter::custom('participating', new ParticipatingQueryFilter),
-
             AllowedFilter::custom('solved', new SolvedQueryFilter),
             AllowedFilter::custom('unsolved', new UnsolvedQueryFilter),
+            AllowedFilter::custom('mentioned', new MentionedQueryFilter),
         ];
     }
 }

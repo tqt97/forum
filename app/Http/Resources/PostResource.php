@@ -19,13 +19,15 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'body_preview' => Str::limit($this->body, 100),
+            'body_preview' => Str::limit($this->body, 200),
             'body_markdown' => app(MarkdownRenderer::class)->toHtml($this->body),
             'user' => PublicUserResource::make($this->whenLoaded('user')),
             'discussion' => DiscussionResource::make($this->whenLoaded('discussion')),
             'created_at' => DateTimeResource::make($this->created_at),
             'user_can' => [
+                'reply' => true,
                 'edit' => true,
+                'delete' => true,
             ],
         ];
     }

@@ -24,7 +24,7 @@ const ForumLayout = ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
         <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
             <div className="mx-auto max-w-7xl grid-cols-7 gap-6 space-y-6 py-12 sm:px-6 md:grid md:space-y-0 lg:px-4">
                 <div className="sticky top-2 col-span-2 h-fit space-x-3">
-                    {isReply && page.props.can ? (
+                    {isReply ? (
                         <Button onClick={showCreatePostForm} className="mb-4 flex h-10 w-full cursor-pointer justify-center">
                             Reply
                         </Button>

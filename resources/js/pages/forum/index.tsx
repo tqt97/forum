@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Forum',
+        title: 'Discussions',
         href: '/',
     },
 ];
@@ -49,12 +49,6 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                 data: {
                     search: debouncedSearchQuery,
                 },
-                preserveScroll: true,
-                preserveState: true,
-            });
-        } else {
-            router.visit('/', {
-                method: 'get',
                 preserveScroll: true,
                 preserveState: true,
             });
@@ -99,7 +93,7 @@ export default function Forum({ discussions }: { discussions: Paginated<Discussi
                         </ul>
                     </div>
                 </div>
-                {discussions.data && (
+                {discussions.data.length > 0 && (
                     <div className="my-6 flex justify-center">
                         <Pagination pagination={discussions} />
                     </div>

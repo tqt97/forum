@@ -7,11 +7,11 @@ import pluralize from 'pluralize';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Forum',
+        title: 'Discussions',
         href: '/',
     },
     {
-        title: 'Details',
+        title: 'Detail',
         href: '#',
     },
 ];
@@ -22,6 +22,7 @@ export default function Forum({ discussion, posts }: { discussion: { data: Discu
             router.delete(route('discussions.destroy', discussion.data.slug));
         }
     };
+    const hasItems = posts.data.length > 0;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Forum" />
@@ -47,9 +48,13 @@ export default function Forum({ discussion, posts }: { discussion: { data: Discu
                 </div>
             </div>
             <div className="mt-6 space-y-4">
-                {posts && posts.data.map((post: Post) => <ListPost key={post.id} post={post} isBestSolutionId={discussion.data.solution.id} />)}
+                {hasItems ? (
+                    posts.data.map((post: Post) => <ListPost key={post.id} post={post} isBestSolutionId={discussion.data?.solution?.id} />)
+                ) : (
+                    <div className="mx-auto w-full rounded-md border bg-white p-6 text-center shadow-md">No posts yet.</div>
+                )}
             </div>
-            <div className="mt-6">{posts.data && <Pagination pagination={posts} />}</div>
+            <div className="mt-6">{hasItems && <Pagination pagination={posts} />}</div>
         </AppLayout>
     );
 }

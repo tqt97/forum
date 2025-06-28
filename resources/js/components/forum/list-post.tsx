@@ -28,11 +28,11 @@ export default function ListPost({ post, isBestSolutionId }: ListPostProps) {
     };
 
     const handleReplyClick = () => {
-        setIsReplying(true); // Khi nhấn reply, mở form trả lời
+        setIsReplying(true);
     };
 
     const handleCancelReply = () => {
-        setIsReplying(false); // Khi cancel, ẩn form trả lời
+        setIsReplying(false);
     };
 
     const handleCreatePostSubmit = (body: string) => {
@@ -81,7 +81,6 @@ export default function ListPost({ post, isBestSolutionId }: ListPostProps) {
         <div
             key={post.id}
             id={`post-${post.id}`}
-            // className="relative flex items-start space-x-3 overflow-hidden border-2 bg-white p-6 text-gray-900 shadow-sm sm:rounded-lg {boderStyle}
             className={`relative flex items-start space-x-3 overflow-hidden border-2 bg-white p-6 text-gray-900 shadow-sm sm:rounded-lg ${borderStyle}`}
         >
             <div className="w-6 flex-shrink-0">
@@ -144,7 +143,7 @@ export default function ListPost({ post, isBestSolutionId }: ListPostProps) {
                 </ul>
             </div>
             {isBestSolution && (
-                <div className="absolute top-0 right-0 rounded-bl bg-gray-800 px-3 py-1 text-xs font-semibold tracking-wide text-gray-100 uppercase shadow-sm">
+                <div className="absolute top-0 right-0 rounded-bl-xl bg-gray-800 px-3 py-1 text-xs tracking-wide text-gray-100 shadow-sm">
                     Best answer
                 </div>
             )}
