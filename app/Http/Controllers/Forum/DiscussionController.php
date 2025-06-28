@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Forum;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DeleteDiscussionRequest;
 use App\Http\Requests\StoreDiscussionRequest;
 use App\Http\Resources\DiscussionResource;
 use App\Http\Resources\PostResource;
@@ -67,6 +68,13 @@ class DiscussionController extends Controller
         $discussion->posts()->save($post);
 
         return redirect()->route('discussions.show', $discussion);
+    }
+
+    public function delete(DeleteDiscussionRequest $request, Discussion $discussion)
+    {
+        $discussion->delete();
+
+        return redirect()->route('home');
     }
 
     protected function getPageForPost(Discussion $discussion, $postId)

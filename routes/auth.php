@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
+    Route::delete('/discussions/{discussion:slug}', [DiscussionController::class, 'delete'])->name('discussions.destroy');
+
     Route::post('/discussions/{discussion:slug}/posts', [PostController::class, 'store'])->name('posts.store');
     Route::patch('posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('posts/{post}', [PostController::class, 'delete'])->name('posts.destroy');

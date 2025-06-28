@@ -2,7 +2,7 @@ import ListPost from '@/components/forum/list-post';
 import Pagination from '@/components/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { Discussion, Paginated, Post, type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import pluralize from 'pluralize';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -17,6 +17,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Forum({ discussion, posts }: { discussion: { data: Discussion }; posts: Paginated<Post> }) {
+    const handleDeleteDiscussion = () => {
+        if (window.confirm('Are you sure?')) {
+            router.delete(route('discussions.destroy', discussion.data.slug));
+        }
+    };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Forum" />
@@ -32,7 +37,9 @@ export default function Forum({ discussion, posts }: { discussion: { data: Discu
                         </h1>
                         <ul>
                             <li>
-                                <button className="cursor-pointer text-sm text-red-500">Delete</button>
+                                <button onClick={handleDeleteDiscussion} className="cursor-pointer text-sm text-red-500">
+                                    Delete
+                                </button>
                             </li>
                         </ul>
                     </div>
