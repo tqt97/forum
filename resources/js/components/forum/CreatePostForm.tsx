@@ -1,4 +1,4 @@
-import { Discussion, SharedData } from '@/types';
+import { Discussion, PostForm, SharedData } from '@/types';
 import { router, useForm, usePage } from '@inertiajs/react';
 import MarkdownEditor from '@uiw/react-markdown-editor';
 import { LoaderCircle, Plus } from 'lucide-react';
@@ -13,21 +13,17 @@ interface NewDiscussionFormProps {
     discussion?: Discussion;
 }
 
-type CreatePostForm = {
-    body: string;
-};
-
 export default function CreatePostForm({ visible, onClose, discussion }: NewDiscussionFormProps) {
     const page = usePage<SharedData>();
     const { topics } = page.props;
-    const [clientErrors, setClientErrors] = useState<Partial<CreatePostForm>>({});
+    const [clientErrors, setClientErrors] = useState<Partial<PostForm>>({});
 
-    const { data, setData, processing, errors, reset } = useForm<Required<CreatePostForm>>({
+    const { data, setData, processing, errors, reset } = useForm<Required<PostForm>>({
         body: '',
     });
 
     const validateForm = (): boolean => {
-        const errors: Partial<CreatePostForm> = {};
+        const errors: Partial<PostForm> = {};
         let firstErrorField: string | null = null;
 
         if (!data.body.trim()) {
@@ -55,8 +51,6 @@ export default function CreatePostForm({ visible, onClose, discussion }: NewDisc
         const payload = {
             body: data.body,
         };
-        console.log(payload);
-        console.log(discussion?.slug);
         router.post(route('posts.store', discussion?.slug), payload, {
             onSuccess: () => {
                 onClose();
@@ -71,7 +65,10 @@ export default function CreatePostForm({ visible, onClose, discussion }: NewDisc
     return (
         <>
             {visible && (
-                <form onSubmit={submit} className="fixed bottom-0 z-50 mx-auto w-full space-y-3 border-t-4 border-gray-100 bg-white p-6 shadow-2xl">
+                <form
+                    onSubmit={submit}
+                    className="fixed bottom-0 z-50 mx-auto w-full max-w-5xl space-y-3 border-t-4 border-gray-100 bg-white p-6 shadow-2xl"
+                >
                     <div className="mx-auto max-w-7xl">
                         <div className="flex items-end justify-between">
                             <h1 className="text-lg font-bold">Reply</h1>
@@ -99,7 +96,7 @@ export default function CreatePostForm({ visible, onClose, discussion }: NewDisc
                                 </div>
                             </div>
                             <div className="mt-4">
-                                <Button className="w-full cursor-pointer" disabled={processing} type="submit">
+                                <Button className="cursor-pointer" disabled={processing} type="submit">
                                     {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                     <Plus /> Create a post
                                 </Button>

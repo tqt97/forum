@@ -58,4 +58,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/discussions', [DiscussionController::class, 'store'])->name('discussions.store');
     Route::post('/discussions/{discussion:slug}/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::patch('posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('posts/{post}', [PostController::class, 'delete'])->name('posts.destroy');
 });

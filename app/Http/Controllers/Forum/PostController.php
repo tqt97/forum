@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Forum;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Models\Discussion;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -23,5 +25,19 @@ class PostController extends Controller
 
         // return redirect()->route('discussions.show', $discussion);
         return redirect(route('discussions.show', $discussion).'?post='.$post->id);
+    }
+
+    public function update(UpdatePostRequest $request, Post $post): RedirectResponse
+    {
+        $post->update($request->validated());
+
+        return back();
+    }
+
+    public function delete(Request $request, Post $post): RedirectResponse
+    {
+        $post->delete();
+
+        return back();
     }
 }

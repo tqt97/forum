@@ -103,3 +103,7 @@ export interface Post {
     };
     // discussion: Discussion;
 }
+
+export interface PostForm {
+    body: string;
+}
