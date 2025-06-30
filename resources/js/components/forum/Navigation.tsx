@@ -1,9 +1,8 @@
-import { SharedData } from '@/types';
+import { useAuth } from '@/contexts/authContext';
 import { Link, usePage } from '@inertiajs/react';
 
 export default function Navigation() {
-    const page = usePage<SharedData>();
-    const { auth } = page.props;
+    const { user } = useAuth();
     const { url } = usePage();
     const searchParams = new URLSearchParams(url.split('?')[1]);
     const isActive = searchParams.get('filter[noreplies]') === '1';
@@ -29,7 +28,7 @@ export default function Navigation() {
                             </Link>
                         </li>
                     </ul>
-                    {auth.user && (
+                    {user && (
                         <ul className="space-y-2 border-t border-t-gray-100 pt-3">
                             <li>
                                 <Link href="/?filter[mine]=1" className={isMine ? activeLink : ''}>

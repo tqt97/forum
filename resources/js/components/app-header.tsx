@@ -5,9 +5,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/compon
 import { NavigationMenu, NavigationMenuList } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { UserMenuContent } from '@/components/user-menu-content';
+import { useAuth } from '@/contexts/authContext';
 import { useInitials } from '@/hooks/use-initials';
-import { type BreadcrumbItem, type SharedData } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
+import { type BreadcrumbItem } from '@/types';
+import { Link } from '@inertiajs/react';
 import { Menu } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
@@ -27,8 +28,8 @@ interface AppHeaderProps {
 }
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
-    const page = usePage<SharedData>();
-    const { auth } = page.props;
+    const { user } = useAuth();
+
     const getInitials = useInitials();
     return (
         <>
@@ -94,20 +95,20 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     </div>
 
                     <div className="ml-auto flex items-center space-x-2">
-                        {auth.user ? (
+                        {user ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" className="size-10 rounded-full p-1">
                                         <Avatar className="size-8 overflow-hidden rounded-full">
-                                            <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
+                                            <AvatarImage src={user.avatar} alt={user.name} />
                                             <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                {getInitials(auth.user.name)}
+                                                {getInitials(user.name)}
                                             </AvatarFallback>
                                         </Avatar>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align="end">
-                                    <UserMenuContent user={auth.user} />
+                                    <UserMenuContent user={user} />
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         ) : (
